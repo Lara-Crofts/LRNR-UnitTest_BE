@@ -133,3 +133,7 @@ accidental modification. Keep up the good work, matey! ðŸ¦œ"
 }
 
 ```
+
+## BACKEND END TEST CASES / JEST
+cd /lrnr-backend --> backend.test.js
+run tests command: npm test backend.test.js

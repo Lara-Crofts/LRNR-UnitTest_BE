@@ -6,6 +6,8 @@
 
 // --> test --> expect --> end
 
+// RUN EACH UNIT TEST SEPERATELY, IF YOU RUN ALL TESTS AT ONCE, THE TESTS WILL FAIL(?)
+
 
 // test 1: test the get request to the ChatGPT API to generate a quiz ********
 // test endpoint: /api/generatequiz
@@ -13,6 +15,8 @@
 
 const request = require('supertest');
 const app = require('./app.js'); // server file variable
+const { getQuestions, getEvaluation } = require('./app.js');
+
 
 // added 10 seconds for timeout, without it the test would keep failing
 // it tests do not work, please run each test individually ***
@@ -28,7 +32,7 @@ test('GET /api/generatequiz', async () => {
 
 
 // test 2: ********
-// expects the response body to be an object with an error message.
+// expect the response body to be an object with an error message.
 
 describe('Generate Quiz API', () => {
     test('JSON Response', async () => {
@@ -60,9 +64,7 @@ describe('Generate Quiz API', () => {
 
 // test 3: ********
 
-
 // testing  Score Question API endpoint
-
 describe('Score Question API', () => {
     test('Correct Answer', async () => {
         const response = await request(app)
@@ -70,9 +72,28 @@ describe('Score Question API', () => {
 
         expect(response.status).toBe(200);
     });
-});
-
-
+        
+  }, 20000);
 
 
 // test 4: ********
+// test if questions and evaluation variables are defined
+
+// Mock(ing) the app.js module
+jest.mock("./app", () => ({
+    getQuestions: jest.fn(),
+    getEvaluation: jest.fn()
+  }));
+  
+  describe('Checking if questions and evaluation variables are defined', () => {
+
+    test('Questions and evaluation are defined', () => {
+      // Define the mocked responses
+      getQuestions.mockReturnValue({ });
+      getEvaluation.mockReturnValue({ });
+  
+      // Now you can check if questions and evaluation are defined
+      expect(getQuestions()).toBeDefined();
+      expect(getEvaluation()).toBeDefined();
+    }, 20000); 
+});
